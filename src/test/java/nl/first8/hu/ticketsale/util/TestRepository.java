@@ -1,5 +1,6 @@
 package nl.first8.hu.ticketsale.util;
 
+import nl.first8.hu.ticketsale.artist.Artist;
 import nl.first8.hu.ticketsale.registration.Account;
 import nl.first8.hu.ticketsale.registration.AccountInfo;
 import nl.first8.hu.ticketsale.sales.Ticket;
@@ -61,8 +62,9 @@ public class TestRepository {
     }
     
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Concert createDefaultConcert(String artist, String locationName) {
+    public Concert createDefaultConcert(String artistName, String locationName) {
         Location location = createLocation(locationName);
+        Artist artist = createArtist(artistName);
         Concert concert = new Concert();
         concert.setArtist(artist);
         concert.setGenre("Grindcore");
@@ -73,8 +75,9 @@ public class TestRepository {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Concert createConcert(String artist, String genre, String locationName) {
+    public Concert createConcert(String artistName, String genre, String locationName) {
         Location location = createLocation(locationName);
+        Artist artist = createArtist(artistName);
         Concert concert = new Concert();
         concert.setArtist(artist);
         concert.setGenre(genre);
@@ -90,6 +93,14 @@ public class TestRepository {
         location.setName(locationName);
         entityManager.persist(location);
         return location;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    private Artist createArtist(String artistName) {
+        Artist artist = new Artist();
+        artist.setName(artistName);
+        entityManager.persist(artist);
+        return artist;
     }
 
 

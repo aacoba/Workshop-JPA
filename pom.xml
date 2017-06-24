@@ -67,6 +67,19 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/ticketsale_db</url>
+                    <user>ticketsale</user>
+                    <password>ticketsale</password>
+                    <schemas>
+                        <schema>ticketsale_db</schema>
+                    </schemas>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
