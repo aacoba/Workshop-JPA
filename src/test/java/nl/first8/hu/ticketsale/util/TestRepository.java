@@ -4,7 +4,9 @@ import nl.first8.hu.ticketsale.registration.Account;
 import nl.first8.hu.ticketsale.registration.AccountInfo;
 import nl.first8.hu.ticketsale.sales.Ticket;
 import nl.first8.hu.ticketsale.sales.TicketId;
+import nl.first8.hu.ticketsale.venue.Artist;
 import nl.first8.hu.ticketsale.venue.Concert;
+import nl.first8.hu.ticketsale.venue.Genre;
 import nl.first8.hu.ticketsale.venue.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,9 +63,13 @@ public class TestRepository {
     }
     
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Concert createDefaultConcert(String artist, String locationName) {
+    public Concert createDefaultConcert(String artist_name, String locationName) {
         Location location = createLocation(locationName);
         Concert concert = new Concert();
+        Artist artist = new Artist();
+        artist.setName(artist_name);
+        artist.setGenre(Genre.GRINDCORE);
+        entityManager.persist(artist);
         concert.setArtist(artist);
         concert.setGenre("Grindcore");
         concert.setLocation(location);
@@ -73,9 +79,13 @@ public class TestRepository {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Concert createConcert(String artist, String genre, String locationName) {
+    public Concert createConcert(String artist_name, String genre, String locationName) {
         Location location = createLocation(locationName);
         Concert concert = new Concert();
+        Artist artist = new Artist();
+        artist.setName(artist_name);
+        artist.setGenre(Genre.valueOf(genre.toUpperCase()));
+        entityManager.persist(artist);
         concert.setArtist(artist);
         concert.setGenre(genre);
         concert.setLocation(location);

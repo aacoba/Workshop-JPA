@@ -70,15 +70,15 @@ public class ReportingIntegrationTest {
 
         assertThat(3, is(receivedReports.size()));
 
-        assertThat(concertMetal1.getArtist(), is(receivedReports.get(0).getArtist()));
+        assertThat(concertMetal1.getArtist().getName(), is(receivedReports.get(0).getArtist()));
         assertThat(concertMetal1.getLocation().getName(), is(receivedReports.get(0).getConcertLocations()));
         assertThat(accountZeist.getInfo().getCity(), is(receivedReports.get(0).getTicketCity()));
 
-        assertThat(concertMetal1.getArtist(), is(receivedReports.get(1).getArtist()));
+        assertThat(concertMetal1.getArtist().getName(), is(receivedReports.get(1).getArtist()));
         assertThat(concertMetal1.getLocation().getName(), is(receivedReports.get(1).getConcertLocations()));
         assertThat(accountNieuwegein.getInfo().getCity(), is(receivedReports.get(1).getTicketCity()));
 
-        assertThat(concertMetal2.getArtist(), is(receivedReports.get(2).getArtist()));
+        assertThat(concertMetal2.getArtist().getName(), is(receivedReports.get(2).getArtist()));
         assertThat(concertMetal2.getLocation().getName(), is(receivedReports.get(2).getConcertLocations()));
         assertThat(accountNieuwegein.getInfo().getCity(), is(receivedReports.get(2).getTicketCity()));
 

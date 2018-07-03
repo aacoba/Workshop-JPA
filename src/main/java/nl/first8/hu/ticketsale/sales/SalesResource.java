@@ -39,8 +39,13 @@ public class SalesResource {
 
             Optional<Sale> sale = service.getSale(accountId, concertId);
 
-            return sale.map(s -> ResponseEntity.ok(s.getId()))
-                    .orElse(ResponseEntity.notFound().build());
+            if (!sale.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+            Sale s = sale.get();
+            service.insertAuditTrail(accountId, sale.get().getId());
+            return ResponseEntity.ok(s.getId());
+
         } catch (RuntimeException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -51,7 +56,7 @@ public class SalesResource {
         try {
             List<Ticket> tickets = service.getById(accountId);
             List<TicketDto> responseTickets = tickets.stream()
-                    .map(t -> new TicketDto(t.getConcert().getArtist(), t.getConcert().getGenre(), t.getConcert().getLocation().getName()))
+                    .map(t -> new TicketDto(t.getConcert().getArtist().getName(), t.getConcert().getGenre(), t.getConcert().getLocation().getName()))
                     .collect(Collectors.toList());
             return ResponseEntity.ok(responseTickets);
         } catch (RuntimeException e) {

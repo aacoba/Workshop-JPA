@@ -48,12 +48,19 @@ public class SalesService {
         salesRepository.insert(sale);
     }
 
+    protected void insertAuditTrail(Long accountId, Long saleId) {
+        AuditTrail auditTrail = new AuditTrail();
+        auditTrail.setAccount_id(accountId);
+        auditTrail.setSale_id(saleId);
+        salesRepository.insert(auditTrail);
+    }
+
     public Optional<Sale> getSale(Long accountId, Long concertId) {
         Account account = registrationRepository.findById(accountId).orElseThrow(() -> new RuntimeException("Unknown account Id " + accountId));
         Concert concert = venueRepository.findConcertById(concertId).orElseThrow(() -> new RuntimeException("Unknown concert Id " + concertId));
 
         return salesRepository.findTicket(new TicketId(concert, account))
-                .flatMap(ticket -> salesRepository.findSaleByTicket(ticket));
+                .flatMap(salesRepository::findSaleByTicket);
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
